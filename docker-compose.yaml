@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  mysql-traceability:
+    image: mysql:8.0
+    container_name: mysql-traceability
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: traceability_db
+      MYSQL_USER: traceability_user
+      MYSQL_PASSWORD: traceability123
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+      - mysql_traceability_data:/var/lib/mysql
+    networks:
+      - traceability-network
+
+volumes:
+  mysql_traceability_data:
+
+networks:
+  traceability-network:
+    driver: bridge
