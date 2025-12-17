@@ -5,6 +5,7 @@ import co.com.bancolombia.model.ordertrace.gateways.OrderTraceRepository;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class OrderTraceabilityUseCase implements OrderTraceabilityService {
@@ -18,5 +19,10 @@ public class OrderTraceabilityUseCase implements OrderTraceabilityService {
                 .build();
 
         return orderTraceRepository.save(traceToSave);
+    }
+
+    @Override
+    public List<OrderTrace> getOrderHistory(Long orderId) {
+        return orderTraceRepository.findByOrderId(orderId);
     }
 }

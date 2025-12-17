@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/orders/traces")
 @RequiredArgsConstructor
@@ -29,5 +31,17 @@ public class OrderTraceApiRest {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.of(response));
+    }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<ApiResponse<List<OrderTraceResponse>>> getOrderHistory(
+            @PathVariable("orderId") Long orderId) {
+
+        List<OrderTrace> orderHistory = orderTraceabilityService.getOrderHistory(orderId);
+        List<OrderTraceResponse> response = orderHistory.stream()
+                .map(orderTraceMapper::toResponseDto)
+                .toList();
+
+        return ResponseEntity.ok(ApiResponse.of(response));
     }
 }

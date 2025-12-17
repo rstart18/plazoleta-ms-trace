@@ -6,6 +6,8 @@ import co.com.bancolombia.model.ordertrace.gateways.OrderTraceRepository;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class OrderTraceJPARepositoryAdapter extends AdapterOperations<OrderTrace, OrderTraceEntity, Long, OrderTraceJPARepository>
         implements OrderTraceRepository {
@@ -19,5 +21,13 @@ public class OrderTraceJPARepositoryAdapter extends AdapterOperations<OrderTrace
         OrderTraceEntity entity = mapper.map(orderTrace, OrderTraceEntity.class);
         OrderTraceEntity savedEntity = repository.save(entity);
         return mapper.map(savedEntity, OrderTrace.class);
+    }
+
+    @Override
+    public List<OrderTrace> findByOrderId(Long orderId) {
+        List<OrderTraceEntity> entities = repository.findByOrderIdOrderByTimestampAsc(orderId);
+        return entities.stream()
+                .map(entity -> mapper.map(entity, OrderTrace.class))
+                .toList();
     }
 }
