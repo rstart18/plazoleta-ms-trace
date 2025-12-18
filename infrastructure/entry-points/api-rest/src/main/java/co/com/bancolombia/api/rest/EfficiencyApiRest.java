@@ -1,6 +1,6 @@
 package co.com.bancolombia.api.rest;
 
-import co.com.bancolombia.api.dto.response.ApiResponse;
+import co.com.bancolombia.api.dto.response.ApiResponseData;
 import co.com.bancolombia.api.dto.response.EmployeeEfficiencyResponse;
 import co.com.bancolombia.api.dto.response.OrderEfficiencyResponse;
 import co.com.bancolombia.api.mapper.dto.EfficiencyMapper;
@@ -22,42 +22,42 @@ public class EfficiencyApiRest {
     private final EfficiencyMapper efficiencyMapper;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<OrderEfficiencyResponse>>> getAllOrdersEfficiency() {
+    public ResponseEntity<ApiResponseData<List<OrderEfficiencyResponse>>> getAllOrdersEfficiency() {
         List<OrderEfficiency> efficiencies = orderEfficiencyService.getAllOrdersEfficiency();
         List<OrderEfficiencyResponse> response = efficiencies.stream()
                 .map(efficiencyMapper::toOrderEfficiencyResponse)
                 .toList();
 
-        return ResponseEntity.ok(ApiResponse.of(response));
+        return ResponseEntity.ok(ApiResponseData.of(response));
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<ApiResponse<OrderEfficiencyResponse>> getOrderEfficiency(
+    public ResponseEntity<ApiResponseData<OrderEfficiencyResponse>> getOrderEfficiency(
             @PathVariable("orderId") Long orderId) {
 
         OrderEfficiency efficiency = orderEfficiencyService.getOrderEfficiency(orderId);
         OrderEfficiencyResponse response = efficiencyMapper.toOrderEfficiencyResponse(efficiency);
 
-        return ResponseEntity.ok(ApiResponse.of(response));
+        return ResponseEntity.ok(ApiResponseData.of(response));
     }
 
     @GetMapping("/employees/ranking")
-    public ResponseEntity<ApiResponse<List<EmployeeEfficiencyResponse>>> getEmployeesEfficiencyRanking() {
+    public ResponseEntity<ApiResponseData<List<EmployeeEfficiencyResponse>>> getEmployeesEfficiencyRanking() {
         List<EmployeeEfficiency> efficiencies = orderEfficiencyService.getEmployeesEfficiencyRanking();
         List<EmployeeEfficiencyResponse> response = efficiencies.stream()
                 .map(efficiencyMapper::toEmployeeEfficiencyResponse)
                 .toList();
 
-        return ResponseEntity.ok(ApiResponse.of(response));
+        return ResponseEntity.ok(ApiResponseData.of(response));
     }
 
     @GetMapping("/employees/{employeeId}")
-    public ResponseEntity<ApiResponse<EmployeeEfficiencyResponse>> getEmployeeEfficiency(
+    public ResponseEntity<ApiResponseData<EmployeeEfficiencyResponse>> getEmployeeEfficiency(
             @PathVariable("employeeId") Long employeeId) {
 
         EmployeeEfficiency efficiency = orderEfficiencyService.getEmployeeEfficiency(employeeId);
         EmployeeEfficiencyResponse response = efficiencyMapper.toEmployeeEfficiencyResponse(efficiency);
 
-        return ResponseEntity.ok(ApiResponse.of(response));
+        return ResponseEntity.ok(ApiResponseData.of(response));
     }
 }

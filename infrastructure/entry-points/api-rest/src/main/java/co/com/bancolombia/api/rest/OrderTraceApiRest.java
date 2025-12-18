@@ -1,7 +1,7 @@
 package co.com.bancolombia.api.rest;
 
 import co.com.bancolombia.api.dto.request.OrderTraceRequest;
-import co.com.bancolombia.api.dto.response.ApiResponse;
+import co.com.bancolombia.api.dto.response.ApiResponseData;
 import co.com.bancolombia.api.dto.response.OrderTraceResponse;
 import co.com.bancolombia.api.mapper.dto.OrderTraceMapper;
 import co.com.bancolombia.model.ordertrace.OrderTrace;
@@ -22,7 +22,7 @@ public class OrderTraceApiRest {
     private final OrderTraceMapper orderTraceMapper;
 
     @PostMapping
-    public ResponseEntity<ApiResponse<OrderTraceResponse>> createTrace(
+    public ResponseEntity<ApiResponseData<OrderTraceResponse>> createTrace(
             @RequestBody OrderTraceRequest request) {
 
         OrderTrace orderTrace = orderTraceMapper.toModel(request);
@@ -30,11 +30,11 @@ public class OrderTraceApiRest {
         OrderTraceResponse response = orderTraceMapper.toResponseDto(createdTrace);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ApiResponse.of(response));
+                .body(ApiResponseData.of(response));
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<ApiResponse<List<OrderTraceResponse>>> getOrderHistory(
+    public ResponseEntity<ApiResponseData<List<OrderTraceResponse>>> getOrderHistory(
             @PathVariable("orderId") Long orderId) {
 
         List<OrderTrace> orderHistory = orderTraceabilityService.getOrderHistory(orderId);
@@ -42,6 +42,6 @@ public class OrderTraceApiRest {
                 .map(orderTraceMapper::toResponseDto)
                 .toList();
 
-        return ResponseEntity.ok(ApiResponse.of(response));
+        return ResponseEntity.ok(ApiResponseData.of(response));
     }
 }
