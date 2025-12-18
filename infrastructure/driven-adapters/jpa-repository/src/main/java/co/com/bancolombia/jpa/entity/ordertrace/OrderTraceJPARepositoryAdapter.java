@@ -30,4 +30,19 @@ public class OrderTraceJPARepositoryAdapter extends AdapterOperations<OrderTrace
                 .map(entity -> mapper.map(entity, OrderTrace.class))
                 .toList();
     }
+
+    @Override
+    public List<OrderTrace> findAll() {
+        return repository.findAll().stream()
+                .map(entity -> mapper.map(entity, OrderTrace.class))
+                .toList();
+    }
+
+    @Override
+    public List<OrderTrace> findByEmployeeId(Long employeeId) {
+        List<OrderTraceEntity> entities = repository.findByEmployeeId(employeeId);
+        return entities.stream()
+                .map(entity -> mapper.map(entity, OrderTrace.class))
+                .toList();
+    }
 }

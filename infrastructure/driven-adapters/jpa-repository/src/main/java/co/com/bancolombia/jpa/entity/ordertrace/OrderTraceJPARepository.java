@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface OrderTraceJPARepository extends JpaRepository<OrderTraceEntity, Long>, QueryByExampleExecutor<OrderTraceEntity> {
     List<OrderTraceEntity> findByOrderIdOrderByTimestampAsc(Long orderId);
+    List<OrderTraceEntity> findByEmployeeId(Long employeeId);
 }

@@ -7,4 +7,6 @@ import java.util.List;
 public interface OrderTraceRepository {
     OrderTrace save(OrderTrace orderTrace);
     List<OrderTrace> findByOrderId(Long orderId);
+    List<OrderTrace> findAll();
+    List<OrderTrace> findByEmployeeId(Long employeeId);
 }
